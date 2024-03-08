@@ -7,10 +7,13 @@
  */
 import { connect } from './config.js';
 import express from 'express';
+import carRoutes from './routes/carRoutes.js';
 
 connect();
 
 const api = express();
+
+api.use(express.json());
 
 api.listen(8000, () => {
   console.log('API corriendo en puerto 8000');
@@ -18,5 +21,7 @@ api.listen(8000, () => {
 
 //String (nombre de la ruta)
 api.get('/test', (req, res) => {
-  console.log('Hola es to es una prueba desde terminal');
+  res.send('Hola es to es una prueba desde terminal');
 });
+
+api.use(carRoutes);
