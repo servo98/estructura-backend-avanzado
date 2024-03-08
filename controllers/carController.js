@@ -1,4 +1,5 @@
 import Car from '../models/Car.js';
+import carRoutes from '../routes/carRoutes.js';
 
 //Create ✅
 const createCar = async (req, res) => {
@@ -16,8 +17,8 @@ const createCar = async (req, res) => {
   res.json(newCar);
 };
 
-//Read
-//Get all cars ✅
+//Read ✅
+//Get all cars
 const getAllCars = async (req, res) => {
   const cars = await Car.find();
   res.json(cars);
@@ -29,7 +30,7 @@ const getCarById = async (req, res) => {
   res.json(car);
 };
 
-//Update
+//Update ✅
 const updateCar = async (req, res) => {
   //Deconstrucción objetos JS
   //const carId = req.params.carID; ==  const { cardId } = req.params;
@@ -45,6 +46,10 @@ const updateCar = async (req, res) => {
   res.json(updatedCar);
 };
 
-//Delete
+//Delete ✅
+const deleteCar = async (req, res) => {
+  const deletedCar = await Car.findByIdAndDelete(req.params.carId);
+  res.json(deletedCar);
+};
 
-export { createCar, getAllCars, getCarById, updateCar };
+export { createCar, getAllCars, getCarById, updateCar, deleteCar };
