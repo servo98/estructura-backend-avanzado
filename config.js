@@ -10,7 +10,7 @@ const connect = () => {
 
   //callback
   connection.once('open', () => {
-    console.log('Conexión exitosa a base de adtos');
+    console.log('Conexión exitosa a base de datos');
   });
 
   connection.once('error', () => {
