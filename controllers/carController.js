@@ -30,7 +30,21 @@ const getCarById = async (req, res) => {
 };
 
 //Update
+const updateCar = async (req, res) => {
+  //Deconstrucción objetos JS
+  //const carId = req.params.carID; ==  const { cardId } = req.params;
+
+  const { carId } = req.params;
+  //1.- Filtro 2.- Nuevos campos
+  const updatedCar = await Car.updateOne(
+    {
+      _id: carId,
+    },
+    req.body
+  );
+  res.json(updatedCar);
+};
 
 //Delete
 
-export { createCar, getAllCars, getCarById };
+export { createCar, getAllCars, getCarById, updateCar };
