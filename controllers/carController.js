@@ -20,7 +20,9 @@ const createCar = async (req, res) => {
 //Read ✅
 //Get all cars
 const getAllCars = async (req, res) => {
-  const cars = await Car.find();
+  const cars = await Car.find({
+    isDeleted: false,
+  });
   res.json(cars);
 };
 
@@ -48,7 +50,27 @@ const updateCar = async (req, res) => {
 
 //Delete ✅
 const deleteCar = async (req, res) => {
-  const deletedCar = await Car.findByIdAndDelete(req.params.carId);
+  // const deletedCar = await Car.findByIdAndDelete(req.params.carId);
+  // res.json(deletedCar);
+
+  //Busque un car por su id
+  //Cambir el campo isDeleted a true
+
+  const deletedCar = await Car.findByIdAndUpdate(
+    //ID a buscar
+    req.params.carId,
+
+    //Objeto nuevo
+    {
+      isDeleted: true,
+    },
+
+    //Opciones
+    {
+      new: true,
+    }
+  );
+
   res.json(deletedCar);
 };
 

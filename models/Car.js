@@ -17,6 +17,10 @@ const carSchema = new mongoose.Schema({
   color: String,
   carType: String,
   vin: String,
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // NOTE: Cap singular
