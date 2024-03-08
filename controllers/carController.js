@@ -1,6 +1,6 @@
 import Car from '../models/Car.js';
 
-//Create
+//Create ✅
 const createCar = async (req, res) => {
   /**
      * brand: 'Nissan',
@@ -17,9 +17,20 @@ const createCar = async (req, res) => {
 };
 
 //Read
+//Get all cars ✅
+const getAllCars = async (req, res) => {
+  const cars = await Car.find();
+  res.json(cars);
+};
+
+//Get car by id ✅
+const getCarById = async (req, res) => {
+  const car = await Car.findById(req.params.carId);
+  res.json(car);
+};
 
 //Update
 
 //Delete
 
-export { createCar };
+export { createCar, getAllCars, getCarById };
