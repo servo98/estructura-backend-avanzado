@@ -8,6 +8,7 @@
 import { connect } from './config.js';
 import express from 'express';
 import carRoutes from './routes/carRoutes.js';
+import bookRoutes from './routes/bookRoutes.js';
 
 connect();
 
@@ -25,3 +26,4 @@ api.get('/test', (req, res) => {
 });
 
 api.use('/cars', carRoutes);
+api.use('/books', bookRoutes);
