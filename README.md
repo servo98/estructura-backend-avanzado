@@ -60,10 +60,20 @@ Bonus de seguridad:
 
 
 
-Entrgable
+Entregable
 
 -Rutas
     -Verbo (POST PUT GET ETC)
     -body necesario
     -URL param necesario
     -Respuesta esperada
+
+
+
+| Término  |  Propósito | Reversible  |  Uso típico |  
+|---|---|---|---|
+|hashing   |   Crear un representación única y fija de datos |  No  | Almacenar passwords y verificar integridad  |
+| Encriptado  |  Proteger datos convertiéndolos en un formato ilegible |  Sí | Transmisión segura de datos o almacenamiento seguro  |
+| Ofuscado  |  Ofuscar código o los datos para dificultar su comprensión |  Sí parcialmente |  Proteger la propiedad intelectual y prevenir ingeniería inversa |
+| Codificación |Convertir datos a un formato en específico |Sí |Transmitir datos a través de la red|
+

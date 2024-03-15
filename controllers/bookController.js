@@ -4,60 +4,100 @@ import Author from '../models/Author.js';
 const createBook = async (req, res) => {
   try {
     /**
-     * req.body {
-     *  authors []
-     *  book
-     * }
+     * 1.- Registrar Authors en DB ✅
+     * 2.- Registrar Book con esos authors ✅
      */
-    /**
-     * 1.- Crear autores
-     * 2.- Crear libro
-     */
+    const { authors, book } = req.body;
 
-    let authorsData = req.body.authors;
-    const bookData = req.body.book;
-
-    if (!authorsData || !bookData) {
-      res.status(400).json({
-        msg: 'authorsData or bookData missing',
+    if (!Array.isArray(authors) || !book) {
+      return res.status(400).json({
+        msg: 'Body incorrecto',
       });
     }
 
-    if (!Array.isArray(authorsData)) {
-      res.status(400).json({
-        msg: 'authorsData must be an array ',
-      });
-    }
-
-    //Crear autores
-    //  [objetos]  -> [schemas]
-    authorsData = authorsData.map((author) => {
-      return new Author(author);
+    //[objs] -> [Promesas]
+    const authorPromises = authors.map((elem) => {
+      return Author.create(elem);
     });
 
-    //crear libro con autores de arriba
+    const authorModels = await Promise.all(authorPromises);
 
-    const newBook = await Book.create({
-      genre: bookData.genre,
-      isbn: bookData.isbn,
-      title: bookData.title,
-      year: bookData.year,
-      authors: authorsData,
+    //[models] -> [ids]
+
+    const authorIds = authorModels.map((model) => {
+      return model.id;
     });
 
-    res.json(newBook);
+    book.authors = authorIds;
+
+    const newBook = await Book.create(book);
+
+    return res.json(newBook);
   } catch (error) {
     res.status(500).json({
-      msg: 'Error al crear Book',
+      msg: 'Error al crear book',
       error,
     });
   }
 };
 
+// const createBook = async (req, res) => {
+//   try {
+//     /**
+//      * req.body {
+//      *  authors []
+//      *  book
+//      * }
+//      */
+//     /**
+//      * 1.- Crear autores
+//      * 2.- Crear libro
+//      */
+
+//     let authorsData = req.body.authors;
+//     const bookData = req.body.book;
+
+//     if (!authorsData || !bookData) {
+//       res.status(400).json({
+//         msg: 'authorsData or bookData missing',
+//       });
+//     }
+
+//     if (!Array.isArray(authorsData)) {
+//       res.status(400).json({
+//         msg: 'authorsData must be an array ',
+//       });
+//     }
+
+//     //Crear autores
+//     //  [objetos]  -> [schemas]
+//     authorsData = authorsData.map((author) => {
+//       return new Author(author);
+//     });
+
+//     //crear libro con autores de arriba
+
+//     const newBook = await Book.create({
+//       genre: bookData.genre,
+//       isbn: bookData.isbn,
+//       title: bookData.title,
+//       year: bookData.year,
+//       authors: authorsData,
+//     });
+
+//     res.json(newBook);
+//   } catch (error) {
+//     res.status(500).json({
+//       msg: 'Error al crear Book',
+//       error,
+//     });
+//   }
+// };
+
 const getBookById = async (req, res) => {
   try {
     //buscar un libro por id
-    const book = await Book.findById(req.params.bookId);
+    const book = await Book.findById(req.params.bookId).populate('authors');
 
     if (!book) {
       return res.status(404).json({
@@ -75,4 +115,21 @@ const getBookById = async (req, res) => {
   }
 };
 
-export { createBook, getBookById };
+const getAllBooks = async (req, res) => {
+  try {
+    const books = await Book.find({});
+    if (!books) {
+      return res.status(404).json({
+        msg: 'Libros no encontrados',
+      });
+    }
+    return res.json(books);
+  } catch (error) {
+    res.status(500).json({
+      msg: 'Error al buscar todos los libros',
+      error,
+    });
+  }
+};
+
+export { createBook, getBookById, getAllBooks };
