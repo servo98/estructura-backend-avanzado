@@ -1,5 +1,4 @@
 import Car from '../models/Car.js';
-import carRoutes from '../routes/carRoutes.js';
 
 //Create ✅
 const createCar = async (req, res) => {
