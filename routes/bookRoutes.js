@@ -1,12 +1,13 @@
 import express from 'express';
-import { createBook } from '../controllers/bookController.js';
+import { createBook, getBookById } from '../controllers/bookController.js';
 
 const bookRoutes = express.Router();
 
-//TODO: create book
+// create book
 bookRoutes.post('/', createBook);
 
-//TODO: get book by id
+//get book by id
+bookRoutes.get('/:bookId', getBookById);
 
 //TODO: get all books
 

@@ -54,4 +54,25 @@ const createBook = async (req, res) => {
   }
 };
 
-export { createBook };
+const getBookById = async (req, res) => {
+  try {
+    //buscar un libro por id
+    const book = await Book.findById(req.params.bookId);
+
+    if (!book) {
+      return res.status(404).json({
+        msg: 'Libro no encontrado',
+      });
+    }
+
+    //responder ese libro
+    return res.json(book);
+  } catch (error) {
+    res.status(500).json({
+      msg: 'Error al buscar libro por id',
+      error,
+    });
+  }
+};
+
+export { createBook, getBookById };
