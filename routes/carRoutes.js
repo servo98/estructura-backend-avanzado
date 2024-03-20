@@ -6,10 +6,12 @@ import {
   updateCar,
   deleteCar,
 } from '../controllers/carController.js';
+import { authValidator } from '../middlewares/authValidator.js';
+import { isAdmin } from '../middlewares/isAdmin.js';
 
 const carRoutes = express.Router();
 
-carRoutes.route('/').post(createCar).get(getAllCars);
+carRoutes.route('/').post(createCar).get(authValidator, isAdmin, getAllCars);
 carRoutes.route('/:carId').get(getCarById).put(updateCar).delete(deleteCar);
 
 // carRoutes.post('/', createCar);
